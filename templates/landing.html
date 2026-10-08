@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Simulazione{% endblock %}
+{% block content %}
+<div class="landing">
+  <div class="landing-badge">SIMULAZIONE DI SICUREZZA</div>
+  <h1>Questo era un test di phishing.</h1>
+  <p class="lead">Ciao {{ target.participant.name }}, hai cliccato un link
+  all'interno di un'email di simulazione. Nessun dato è stato raccolto e non è
+  successo nulla di dannoso — ma in un attacco reale questo click sarebbe potuto
+  bastare.</p>
+
+  {% if template %}
+  <div class="panel">
+    <h2>Cosa avresti dovuto notare</h2>
+    <ul class="indicators">
+      {% for i in template.indicators %}<li>{{ i }}</li>{% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="panel">
+    <h2>La regola pratica</h2>
+    <p>Prima di cliccare: passa il mouse sul link e controlla il dominio reale,
+    diffida di urgenza e minacce, e nel dubbio verifica con il mittente tramite
+    un canale diverso. Se qualcosa non torna, <b>segnala</b> invece di cliccare.</p>
+  </div>
+
+  <form method="post" action="{{ url_for('report_phish', token=target.token) }}">
+    <button type="submit" class="primary">Ho capito — segnala questo tentativo</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ c.name }}{% endblock %}
+{% block content %}
+<a href="{{ url_for('campaigns') }}" class="back">← campagne</a>
+<h1>{{ c.name }}</h1>
+<p class="subj">Template: {{ c.template_key }} ·
+  {% if c.is_launched %}lanciata{% else %}bozza{% endif %}</p>
+
+<div class="cards">
+  <div class="card stat"><div class="num">{{ stats.sent }}</div><div class="lbl">Inviate / {{ stats.total }}</div></div>
+  <div class="card stat"><div class="num">{{ stats.opened }}</div><div class="lbl">Aperte ({{ stats.opened_pct }}%)</div></div>
+  <div class="card stat"><div class="num">{{ stats.clicked }}</div><div class="lbl">Cliccate ({{ stats.clicked_pct }}%)</div></div>
+  <div class="card stat good"><div class="num">{{ stats.reported }}</div><div class="lbl">Segnalate ({{ stats.reported_pct }}%)</div></div>
+</div>
+
+{% if not c.is_launched %}
+<form method="post" action="{{ url_for('launch_campaign', cid=c.id) }}">
+  <button type="submit" class="primary">
+    {% if sending_is_live %}Lancia e invia via SMTP{% else %}Lancia (scrivi in ./outbox){% endif %}
+  </button>
+</form>
+{% endif %}
+
+<h2>Target</h2>
+<table>
+  <tr><th>Partecipante</th><th>Inviata</th><th>Aperta</th><th>Cliccata</th><th>Segnalata</th><th>Link di test</th></tr>
+  {% for t in c.targets %}
+  <tr>
+    <td>{{ t.participant.name }}<br><span class="muted">{{ t.participant.email }}</span></td>
+    <td>{{ '✓' if t.sent_at else '—' }}</td>
+    <td>{{ '✓' if t.opened_at else '—' }}</td>
+    <td>{{ '✓' if t.clicked_at else '—' }}</td>
+    <td>{{ '✓' if t.reported_at else '—' }}</td>
+    <td><a href="{{ url_for('track_click', token=t.token) }}" target="_blank">apri landing</a></td>
+  </tr>
+  {% endfor %}
+</table>
+<p class="hint">In modalità sicura puoi aprire la "landing" dal link qui sopra per
+vedere la pagina educativa senza spedire nulla.</p>
+{% endblock %}

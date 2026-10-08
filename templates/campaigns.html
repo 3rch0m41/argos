@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Campagne{% endblock %}
+{% block content %}
+<h1>Campagne</h1>
+
+<div class="panel">
+  <h2>Nuova campagna</h2>
+  {% if consented %}
+  <form method="post">
+    <label class="block">Nome campagna
+      <input name="name" required placeholder="es. Q4 Awareness — Reparto Vendite">
+    </label>
+
+    <label class="block">Template
+      <select name="template_key" required>
+        {% for t in templates %}
+        <option value="{{ t.key }}">{{ t.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <fieldset>
+      <legend>Destinatari (solo partecipanti con consenso)</legend>
+      {% for p in consented %}
+      <label class="check">
+        <input type="checkbox" name="participants" value="{{ p.id }}">
+        {{ p.name }} &lt;{{ p.email }}&gt;
+      </label>
+      {% endfor %}
+    </fieldset>
+
+    <button type="submit">Crea campagna</button>
+  </form>
+  {% else %}
+  <p class="empty">Nessun partecipante con consenso.
+    <a href="{{ url_for('participants') }}">Aggiungine →</a></p>
+  {% endif %}
+</div>
+
+<h2>Template disponibili</h2>
+<div class="cards">
+  {% for t in templates %}
+  <div class="card">
+    <h3>{{ t.name }}</h3>
+    <p class="subj">Oggetto: {{ t.subject }}</p>
+    <details>
+      <summary>Indicatori didattici ({{ t.indicators|length }})</summary>

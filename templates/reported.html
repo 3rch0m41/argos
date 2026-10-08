@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Segnalato{% endblock %}
+{% block content %}
+<div class="landing">
+  <div class="landing-badge good">OTTIMO RIFLESSO</div>
+  <h1>Grazie per la segnalazione.</h1>
+  <p class="lead">{{ target.participant.name }}, questo è esattamente il
+  comportamento giusto: riconoscere il tentativo e riportarlo. In un contesto
+  reale, una segnalazione tempestiva permette al team di sicurezza di bloccare
+  la campagna per tutti gli altri colleghi.</p>
+  <a href="{{ url_for('dashboard') }}" class="back">← torna alla dashboard</a>
+</div>
+{% endblock %}

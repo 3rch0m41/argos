@@ -1,0 +1,8 @@
+"""Risorse di tracciamento: il pixel trasparente 1x1."""
+
+# GIF trasparente 1x1, servita come immagine per registrare l'apertura.
+PIXEL_GIF = (
+    b"GIF89a\x01\x00\x01\x00\x80\x00\x00\xff\xff\xff\x00\x00\x00!\xf9\x04"
+    b"\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D"
+    b"\x01\x00;"
+)

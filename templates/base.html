@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Argos — {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◈</span> Argos
+      <span class="tag">security awareness · defensive lab</span>
+    </div>
+    <nav>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('participants') }}">Partecipanti</a>
+      <a href="{{ url_for('campaigns') }}">Campagne</a>
+      <a href="{{ url_for('analyzer') }}">Analizza email</a>
+    </nav>
+  </header>
+
+  {% if sending_is_live %}
+    <div class="statusbar live">
+      ⚠ INVIO SMTP ATTIVO — le email vengono spedite davvero. Domini autorizzati:
+      {{ allowed_domains | join(', ') }}
+    </div>
+  {% else %}
+    <div class="statusbar safe">
+      ✓ MODALITÀ SICURA ({{ email_backend }}) — nessun invio reale: le email
+      vengono scritte in <code>./outbox</code>.
+    </div>
+  {% endif %}
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, m in messages %}
+        <div class="flash {{ cat }}">{{ m }}</div>
+      {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    Argos · strumento didattico di Blue Team · usare solo su destinatari
+    autorizzati e consenzienti.
+  </footer>
+</body>
+</html>

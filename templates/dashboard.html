@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="cards">
+  <div class="card stat"><div class="num">{{ totals.participants }}</div><div class="lbl">Partecipanti</div></div>
+  <div class="card stat"><div class="num">{{ totals.consented }}</div><div class="lbl">Con consenso</div></div>
+  <div class="card stat"><div class="num">{{ totals.campaigns }}</div><div class="lbl">Campagne</div></div>
+</div>
+
+<h2>Esiti aggregati</h2>
+{% set maxv = [agg.sent, agg.opened, agg.clicked, agg.reported] | max %}
+<div class="bars">
+  {% for key, label, cls in [('sent','Inviate','b-sent'), ('opened','Aperte','b-open'), ('clicked','Cliccate','b-click'), ('reported','Segnalate','b-report')] %}
+  <div class="barrow">
+    <span class="barlabel">{{ label }}</span>
+    <div class="bartrack">
+      <div class="barfill {{ cls }}" style="width: {{ (100 * agg[key] / maxv) if maxv else 0 }}%"></div>
+    </div>
+    <span class="barval">{{ agg[key] }}</span>
+  </div>
+  {% endfor %}
+</div>
+<p class="hint">"Segnalate" è l'unica barra che vuoi alta: misura chi ha riconosciuto
+e riportato il tentativo invece di cliccarlo.</p>
+
+<h2>Campagne recenti</h2>
+{% if campaigns %}
+<table>
+  <tr><th>Nome</th><th>Template</th><th>Stato</th><th>Click</th><th></th></tr>
+  {% for c in campaigns %}
+  {% set s = c.stats() %}
+  <tr>
+    <td>{{ c.name }}</td>
+    <td>{{ c.template_key }}</td>
+    <td>{% if c.is_launched %}<span class="pill ok">lanciata</span>{% else %}<span class="pill">bozza</span>{% endif %}</td>
+    <td>{{ s.clicked }}/{{ s.total }} ({{ s.clicked_pct }}%)</td>
+    <td><a href="{{ url_for('campaign_detail', cid=c.id) }}">dettagli →</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p class="empty">Nessuna campagna. <a href="{{ url_for('campaigns') }}">Creane una →</a></p>
+{% endif %}
+{% endblock %}

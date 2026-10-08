@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Partecipanti{% endblock %}
+{% block content %}
+<h1>Partecipanti</h1>
+
+<div class="panel">
+  <h2>Aggiungi partecipante</h2>
+  <form method="post" class="grid-form">
+    <label>Nome<input name="name" required></label>
+    <label>Email<input name="email" type="email" required></label>
+    <label>Reparto<input name="department" placeholder="facoltativo"></label>
+    <label class="check">
+      <input type="checkbox" name="consent">
+      Ha dato il consenso esplicito a ricevere simulazioni
+    </label>
+    <button type="submit">Aggiungi</button>
+  </form>
+  <p class="hint">Senza consenso un partecipante viene salvato ma non potrà
+  essere inserito in nessuna campagna.</p>
+</div>
+
+<table>
+  <tr><th>Nome</th><th>Email</th><th>Reparto</th><th>Consenso</th><th></th></tr>
+  {% for p in people %}
+  <tr>
+    <td>{{ p.name }}</td>
+    <td>{{ p.email }}</td>
+    <td>{{ p.department or '—' }}</td>
+    <td>{% if p.consent_given %}<span class="pill ok">sì</span>{% else %}<span class="pill warn">no</span>{% endif %}</td>
+    <td>
+      <form method="post" action="{{ url_for('toggle_consent', pid=p.id) }}" class="inline">
+        <button class="link">{% if p.consent_given %}revoca{% else %}concedi{% endif %}</button>
+      </form>
+    </td>
+  </tr>
+  {% else %}
+  <tr><td colspan="5" class="empty">Nessun partecipante ancora.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
