@@ -1,0 +1,29 @@
+# --- Ambiente virtuale ---
+.venv/
+venv/
+env/
+
+# --- Cache e bytecode Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# --- Database locale (dati di test, non vanno pubblicati) ---
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# --- Email generate in modalità sicura (artefatti di runtime) ---
+outbox/*.eml
+
+# --- Segreti e configurazioni locali ---
+.env
+*.env
+
+# --- File di sistema / editor ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

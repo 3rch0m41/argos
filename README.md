@@ -138,5 +138,5 @@ Released under the [MIT License](LICENSE).
 
 ## Author
 
-**Giulio Malini** ([@Erchomai](https://github.com/Erchomai)) — Blue-Team-oriented
+**Giulio Malini** ([@Erchomai](https://github.com/Erchomai))
 security engineer.
