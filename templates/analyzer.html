@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Analizza email{% endblock %}
+{% block content %}
+<h1>Analizzatore di email sospette</h1>
+<p class="lead">Carica un file <code>.eml</code> o incolla l'email grezza (con
+gli header completi). L'analisi è interamente locale: nessun dato lascia la
+macchina, nessun link viene contattato.</p>
+
+<div class="panel">
+  <form method="post" enctype="multipart/form-data">
+    <label class="block">File .eml
+      <input type="file" name="eml" accept=".eml,message/rfc822,text/plain">
+    </label>
+    <p class="hint">oppure</p>
+    <label class="block">Email grezza (header + corpo)
+      <textarea name="raw" rows="10" placeholder="From: ...&#10;To: ...&#10;Subject: ...&#10;&#10;corpo..."></textarea>
+    </label>
+    <button type="submit" class="primary">Analizza</button>
+  </form>
+</div>
+
+<p class="hint">Per esportare un'email come <code>.eml</code>: in molti client
+basta trascinarla sul desktop, oppure "Salva come" / "Mostra sorgente".</p>
+{% endblock %}

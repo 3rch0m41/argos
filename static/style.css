@@ -120,4 +120,10 @@ form.inline{display:inline;margin:0}
 .f-medium{border-left:3px solid var(--warn)}
 .f-low{border-left:3px solid var(--muted)}
 
+.email-client{max-width:680px;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:14px 0}
+.email-head{background:#f3f4f6;color:#222;padding:14px 18px;border-bottom:1px solid #e3e5e8;font-size:.9rem}
+.email-head .lbl{color:#6b7280;display:inline-block;min-width:62px;font-weight:600}
+.email-body{background:#fff;color:#1a1a1a;padding:22px 18px}
+.email-body a{color:#1a56db}
+
 @media(max-width:620px){.grid-form{grid-template-columns:1fr}nav a{margin:0 16px 0 0}}

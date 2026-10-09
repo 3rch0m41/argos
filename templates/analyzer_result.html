@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Risultato analisi{% endblock %}
+{% block content %}
+<a href="{{ url_for('analyzer') }}" class="back">← nuova analisi</a>
+<h1>Risultato dell'analisi</h1>
+
+<div class="score score-{{ r.level|lower }}">
+  <div class="score-num">{{ r.score }}<span>/100</span></div>
+  <div class="score-lbl">Rischio {{ r.level }}</div>
+</div>
+
+<h2>Autenticazione del mittente</h2>
+<table class="kv">
+  <tr><th>From</th><td>{{ r.headers.from or '—' }}</td></tr>
+  <tr><th>Dominio mittente</th><td>{{ r.headers.from_domain or '—' }}</td></tr>
+  <tr><th>Reply-To</th><td>{{ r.headers.reply_to or '—' }}</td></tr>
+  <tr><th>Return-Path</th><td>{{ r.headers.return_path or '—' }}</td></tr>
+  <tr><th>Oggetto</th><td>{{ r.headers.subject or '—' }}</td></tr>
+  <tr><th>SPF / DKIM / DMARC</th><td>
+    {% for m in ['spf','dkim','dmarc'] %}
+      {% set v = r.headers.auth[m] %}
+      <span class="pill {{ 'ok' if v=='pass' else 'warn' if v in ['fail','softfail'] else '' }}">
+        {{ m|upper }}: {{ v or 'n/d' }}</span>
+    {% endfor %}
+  </td></tr>
+</table>
+<p class="hint">I verdetti SPF/DKIM/DMARC provengono dagli header aggiunti dal
+server ricevente; non viene rifatta la verifica crittografica.</p>
+
+<h2>Rilievi ({{ r.findings|length }})</h2>
+{% if r.findings %}
+<ul class="findings">
+  {% for f in r.findings %}
+  <li class="f-{{ f.level }}">
+    <span class="sev">{{ f.level }}</span>
+    <div><b>{{ f.title }}</b><br>{{ f.detail }}</div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">Nessun indicatore sospetto rilevato dalle euristiche. Non è una
+garanzia di sicurezza: valuta sempre anche il contesto.</p>
+{% endif %}
+
+{% if r.links %}
+<h2>Link trovati ({{ r.links|length }})</h2>
+<table>
+  <tr><th>Testo visibile</th><th>Destinazione reale</th></tr>
+  {% for l in r.links %}
+  <tr><td>{{ l.text or '—' }}</td><td class="mono">{{ l.href }}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

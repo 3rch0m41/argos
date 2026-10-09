@@ -45,3 +45,24 @@
     <p class="subj">Oggetto: {{ t.subject }}</p>
     <details>
       <summary>Indicatori didattici ({{ t.indicators|length }})</summary>
+      <ul>{% for i in t.indicators %}<li>{{ i }}</li>{% endfor %}</ul>
+    </details>
+  </div>
+  {% endfor %}
+</div>
+
+<h2>Tutte le campagne</h2>
+<table>
+  <tr><th>Nome</th><th>Template</th><th>Target</th><th>Stato</th><th></th></tr>
+  {% for c in campaigns %}
+  {% set s = c.stats() %}
+  <tr>
+    <td>{{ c.name }}</td><td>{{ c.template_key }}</td><td>{{ s.total }}</td>
+    <td>{% if c.is_launched %}<span class="pill ok">lanciata</span>{% else %}<span class="pill">bozza</span>{% endif %}</td>
+    <td><a href="{{ url_for('campaign_detail', cid=c.id) }}">dettagli →</a></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="5" class="empty">Nessuna campagna.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

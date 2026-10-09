@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Anteprima email{% endblock %}
+{% block content %}
+<a href="{{ url_for('campaign_detail', cid=t.campaign_id) }}" class="back">← campagna</a>
+<h1>Anteprima email</h1>
+<p class="hint">Così come la vedrebbe {{ t.participant.name }}. Il pixel di
+tracciamento è disattivato in anteprima; il link porta alla landing educativa
+(quello conta come click, come per un destinatario reale).</p>
+
+<div class="email-client">
+  <div class="email-head">
+    <div><span class="lbl">Da:</span> {{ from_display }}</div>
+    <div><span class="lbl">A:</span> {{ t.participant.name }} &lt;{{ t.participant.email }}&gt;</div>
+    <div><span class="lbl">Oggetto:</span> {{ tpl.subject }}</div>
+  </div>
+  <div class="email-body">
+    {{ body|safe }}
+  </div>
+</div>
+{% endblock %}

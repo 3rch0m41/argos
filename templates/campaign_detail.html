@@ -31,6 +31,10 @@
     <td>{{ '✓' if t.opened_at else '—' }}</td>
     <td>{{ '✓' if t.clicked_at else '—' }}</td>
     <td>{{ '✓' if t.reported_at else '—' }}</td>
+    <td>
+      <a href="{{ url_for('email_preview', cid=c.id, tid=t.id) }}">anteprima</a> ·
+      <a href="{{ url_for('track_click', token=t.token) }}" target="_blank">landing</a>
+    </td>
     <td><a href="{{ url_for('track_click', token=t.token) }}" target="_blank">apri landing</a></td>
   </tr>
   {% endfor %}

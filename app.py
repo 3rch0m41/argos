@@ -15,9 +15,9 @@ from flask import (Flask, Response, flash, redirect, render_template,
 from config import Config
 from models import Campaign, Participant, Target, db, log_event
 from simulator.mailer import SendRefused, deliver
-from simulator.templates_catalog import list_templates
+from simulator.templates_catalog import list_templates, get_template
 from simulator.tracking import PIXEL_GIF
-
+from markupsafe import escape
 
 def create_app():
     app = Flask(__name__)
@@ -208,6 +208,29 @@ def create_app():
                 return redirect(url_for("analyzer"))
             return render_template("analyzer_result.html", r=result)
         return render_template("analyzer.html")
+
+
+    # ---------------------------- Visualizzatore -------------------------- #
+    @app.route("/campaigns/<int:cid>/preview/<int:tid>")
+    def email_preview(cid, tid):
+        """Mostra l'email renderizzata, come la vedrebbe il destinatario."""
+        t = Target.query.get_or_404(tid)
+        tpl = get_template(t.campaign.template_key)
+        if not tpl:
+            flash("Template non trovato.", "error")
+            return redirect(url_for("campaign_detail", cid=cid))
+
+        link = f"{Config.BASE_URL}/c/{t.token}"
+        # Pixel 1x1 trasparente "inerte": in anteprima NON registra un'apertura.
+        transparent = ("data:image/gif;base64,"
+                       "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")
+        # escape() sul nome: evita che un nome con HTML dentro rompa/inietti la pagina.
+        safe_name = escape(t.participant.name)
+        body = tpl["body"].format(name=safe_name, link=link, pixel=transparent)
+
+        from_display = f"{Config.FROM_NAME} <{Config.FROM_ADDRESS}>"
+        return render_template("email_preview.html", t=t, tpl=tpl,
+                               body=body, from_display=from_display)
 
     return app
 

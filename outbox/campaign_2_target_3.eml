@@ -1,0 +1,32 @@
+Subject: Conferma dati per erogazione premio di produzione
+From: Security Awareness Team <security-training@example.com>
+To: Marco Bianchi <marco.bianchi@example.com>
+Message-ID: <179152833946.36392.10225358284948149612@argos.local>
+X-Argos-Simulation: true
+X-Argos-Campaign: 2
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="===============8936342913629960632=="
+
+--===============8936342913629960632==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Simulazione di security awareness per Marco Bianchi.
+Apri: http://127.0.0.1:5000/c/W0hqxLPgQZCGrZ_SfnHFuCkCbGqjewLR
+
+--===============8936342913629960632==
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+<p>Gentile Marco Bianchi,</p>
+<p>E stato approvato il premio di produzione del trimestre. Per procedere
+all'erogazione e necessario confermare i tuoi dati entro oggi:</p>
+<p><a href=3D"http://127.0.0.1:5000/c/W0hqxLPgQZCGrZ_SfnHFuCkCbGqjewLR">Confe=
+rma i dati e sblocca il premio</a></p>
+<p>Risorse Umane</p>
+<img src=3D"http://127.0.0.1:5000/t/W0hqxLPgQZCGrZ_SfnHFuCkCbGqjewLR/pixel.pn=
+g" width=3D"1" height=3D"1" alt=3D"">
+
+--===============8936342913629960632==--
